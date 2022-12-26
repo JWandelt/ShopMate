@@ -19,4 +19,7 @@ interface ShoppingDao {
 
     @Query("SELECT * FROM shopping_items")
     fun getAllShoppingItems() : LiveData<List<ShoppingItem>>
+
+    @Query("SELECT * FROM shopping_items WHERE list_id = :listID")
+    fun getItemsInList(listID : Int) : LiveData<List<ShoppingItem>>
 }

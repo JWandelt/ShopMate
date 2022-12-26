@@ -1,8 +1,5 @@
-package com.example.shoppinglist2.other
+package com.example.shoppinglist2.ui.lists
 
-import android.animation.ArgbEvaluator
-import android.animation.ValueAnimator
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +10,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist2.R
 import com.example.shoppinglist2.data.db.entities.ShoppingList
-import com.example.shoppinglist2.ui.lists.ShoppingListViewModel
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.example.shoppinglist2.ui.items.ItemsFragment
 
 class ShoppingListAdapter(
@@ -32,8 +24,10 @@ class ShoppingListAdapter(
         }
 
         override fun onClick(view : View){
+            val positionOfRecyclerVieElement = adapterPosition
+            val listId = positionOfRecyclerVieElement + 1
             val fragmentTransaction = (itemView.context as FragmentActivity).supportFragmentManager.beginTransaction()
-            val fragment = ItemsFragment()
+            val fragment = ItemsFragment(listId)
             fragmentTransaction.replace(R.id.nav_host_fragment_activity_main, fragment)
             fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()
