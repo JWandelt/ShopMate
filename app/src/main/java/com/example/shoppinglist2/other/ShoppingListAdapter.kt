@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist2.R
 import com.example.shoppinglist2.data.db.entities.ShoppingList
-import com.example.shoppinglist2.ui.shoppinglist.ShoppingListViewModel
+import com.example.shoppinglist2.ui.lists.ShoppingListViewModel
 
 class ShoppingListAdapter(
     var lists : List<ShoppingList>,
