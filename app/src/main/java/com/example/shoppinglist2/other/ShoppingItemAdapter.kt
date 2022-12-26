@@ -1,6 +1,5 @@
 package com.example.shoppinglist2.other
 
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist2.R
 import com.example.shoppinglist2.data.db.entities.ShoppingItem
-import com.example.shoppinglist2.ui.shoppinglist.ShoppingViewModel
+import com.example.shoppinglist2.ui.items.ShoppingViewModel
 
 class ShoppingItemAdapter(
     var items : List<ShoppingItem>,

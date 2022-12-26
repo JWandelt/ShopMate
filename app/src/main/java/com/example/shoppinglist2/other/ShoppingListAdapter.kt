@@ -9,10 +9,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist2.R
 import com.example.shoppinglist2.data.db.entities.ShoppingList
 import com.example.shoppinglist2.ui.lists.ShoppingListViewModel
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import com.example.shoppinglist2.ui.items.ItemsFragment
 
 class ShoppingListAdapter(
     var lists : List<ShoppingList>,
@@ -32,6 +36,12 @@ class ShoppingListAdapter(
             animator1.duration = 500
             animator1.addUpdateListener { animator -> itemView.setBackgroundColor(animator.animatedValue as Int) }
             animator1.start()
+
+            val fragmentTransaction = (itemView.context as FragmentActivity).supportFragmentManager.beginTransaction()
+            val fragment = ItemsFragment()
+            fragmentTransaction.replace(R.id.container, fragment)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
 
             // Animate the color back to the normal color after a delay:
             val animator2 = ValueAnimator.ofObject(ArgbEvaluator(), Color.parseColor("#FFCCCC"), normalColor)

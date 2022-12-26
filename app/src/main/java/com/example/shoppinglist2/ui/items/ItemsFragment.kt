@@ -1,4 +1,4 @@
-package com.example.shoppinglist2.ui.lists
+package com.example.shoppinglist2.ui.items
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,23 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist2.data.db.ShoppingDatabase
-import com.example.shoppinglist2.data.db.entities.ShoppingList
 import com.example.shoppinglist2.data.repositories.ShoppingListRepository
-import com.example.shoppinglist2.databinding.FragmentListsBinding
+import com.example.shoppinglist2.data.repositories.ShoppingRepository
+import com.example.shoppinglist2.databinding.FragmentItemsBinding
+import com.example.shoppinglist2.other.ShoppingItemAdapter
 import com.example.shoppinglist2.other.ShoppingListAdapter
 import com.example.shoppinglist2.ui.lists.ShoppingListViewModelFactory
 
-class ListsFragment : Fragment() {
+class ItemsFragment : Fragment() {
 
-    private var _binding: FragmentListsBinding? = null
+    private var _binding: FragmentItemsBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -32,15 +31,15 @@ class ListsFragment : Fragment() {
     ): View {
         val database = ShoppingDatabase(requireContext())
 
-        val repository = ShoppingListRepository(database)
+        val repository = ShoppingRepository(database)
 
-        val factory = ShoppingListViewModelFactory(repository)
+        val factory = ShoppingViewModelFactory(repository)
 
-        val viewModel = ViewModelProviders.of(requireActivity(), factory).get(ShoppingListViewModel::class.java)
+        val viewModel = ViewModelProviders.of(requireActivity(), factory).get(ShoppingViewModel::class.java)
 
-        val adapter = ShoppingListAdapter(listOf(), viewModel)
+        val adapter = ShoppingItemAdapter(listOf(), viewModel)
 
-        _binding = FragmentListsBinding.inflate(inflater, container, false)
+        _binding = FragmentItemsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val rv = binding.rvShoppingItems
@@ -48,10 +47,10 @@ class ListsFragment : Fragment() {
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
 
-        viewModel.getAllLists().observe(viewLifecycleOwner) {
-            adapter.lists = it
+        viewModel.getAllShoppingItems().observe(viewLifecycleOwner, Observer {
+            adapter.items = it
             adapter.notifyDataSetChanged()
-        }
+        })
 
         return root
     }
