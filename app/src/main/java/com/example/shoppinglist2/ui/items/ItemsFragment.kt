@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,31 +18,33 @@ import com.example.shoppinglist2.other.ShoppingItemAdapter
 import com.example.shoppinglist2.ui.shoppinglist.AddDialogListener
 import com.example.shoppinglist2.ui.shoppinglist.AddShoppingItemDialog
 
-class ItemsFragment(listId : Int) : Fragment() {
+class ItemsFragment(listId : Int, listName : String) : Fragment() {
 
     private var _binding: FragmentItemsBinding? = null
 
     private val binding get() = _binding!!
 
     private var listID = listId
+    private var listName = listName
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         val database = ShoppingDatabase(requireContext())
-
         val repository = ShoppingRepository(database)
-
         val factory = ShoppingViewModelFactory(repository)
-
         val viewModel = ViewModelProviders.of(requireActivity(), factory).get(ShoppingViewModel::class.java)
-
         val adapter = ShoppingItemAdapter(listOf(), viewModel)
 
         _binding = FragmentItemsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.title = listName
+        actionBar?.setDisplayHomeAsUpEnabled(true)
 
         val rv = binding.rvShoppingItems
         val fab = binding.fab
@@ -65,6 +69,12 @@ class ItemsFragment(listId : Int) : Fragment() {
         return root
     }
 
+    override fun onPause() {
+        super.onPause()
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.title = "Lists"
+        actionBar?.setDisplayHomeAsUpEnabled(false)
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

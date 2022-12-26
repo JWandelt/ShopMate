@@ -1,5 +1,7 @@
 package com.example.shoppinglist2.ui.lists
 
+import android.transition.Slide
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +9,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.findFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist2.R
 import com.example.shoppinglist2.data.db.entities.ShoppingList
@@ -27,7 +31,15 @@ class ShoppingListAdapter(
             val positionOfRecyclerVieElement = adapterPosition
             val listId = positionOfRecyclerVieElement + 1
             val fragmentTransaction = (itemView.context as FragmentActivity).supportFragmentManager.beginTransaction()
-            val fragment = ItemsFragment(listId)
+            val fragment = ItemsFragment(listId, lists[positionOfRecyclerVieElement].name)
+            fragmentTransaction.setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+            )
+
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             fragmentTransaction.replace(R.id.nav_host_fragment_activity_main, fragment)
             fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()

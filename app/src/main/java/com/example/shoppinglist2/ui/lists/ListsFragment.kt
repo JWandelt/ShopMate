@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,13 +27,9 @@ class ListsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val database = ShoppingDatabase(requireContext())
-
         val repository = ShoppingListRepository(database)
-
         val factory = ShoppingListViewModelFactory(repository)
-
         val viewModel = ViewModelProviders.of(requireActivity(), factory).get(ShoppingListViewModel::class.java)
-
         val adapter = ShoppingListAdapter(listOf(), viewModel)
 
         _binding = FragmentListsBinding.inflate(inflater, container, false)
@@ -48,6 +46,15 @@ class ListsFragment : Fragment() {
         }
 
         return root
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            val actionBar = (activity as AppCompatActivity).supportActionBar
+            actionBar?.setTitle("Lists")
+        }
+        Toast.makeText(context, "smt", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {
