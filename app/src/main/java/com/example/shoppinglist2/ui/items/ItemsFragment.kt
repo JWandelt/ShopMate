@@ -11,12 +11,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shoppinglist2.data.db.ShoppingDatabase
+import com.example.shoppinglist2.data.db.entities.ShoppingItem
 import com.example.shoppinglist2.data.repositories.ShoppingListRepository
 import com.example.shoppinglist2.data.repositories.ShoppingRepository
 import com.example.shoppinglist2.databinding.FragmentItemsBinding
 import com.example.shoppinglist2.other.ShoppingItemAdapter
 import com.example.shoppinglist2.other.ShoppingListAdapter
 import com.example.shoppinglist2.ui.lists.ShoppingListViewModelFactory
+import com.example.shoppinglist2.ui.shoppinglist.AddDialogListener
+import com.example.shoppinglist2.ui.shoppinglist.AddShoppingItemDialog
 
 class ItemsFragment : Fragment() {
 
@@ -43,6 +46,7 @@ class ItemsFragment : Fragment() {
         val root: View = binding.root
 
         val rv = binding.rvShoppingItems
+        val fab = binding.fab
 
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
@@ -51,6 +55,15 @@ class ItemsFragment : Fragment() {
             adapter.items = it
             adapter.notifyDataSetChanged()
         })
+
+        fab.setOnClickListener {
+            AddShoppingItemDialog(requireContext(),
+            object : AddDialogListener{
+                override fun onAddButtonClicked(item: ShoppingItem) {
+                    viewModel.upsert(item)
+                }
+            }).show()
+        }
 
         return root
     }

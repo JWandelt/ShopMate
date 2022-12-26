@@ -16,6 +16,8 @@ import com.example.shoppinglist2.data.db.entities.ShoppingList
 import com.example.shoppinglist2.ui.lists.ShoppingListViewModel
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.example.shoppinglist2.ui.items.ItemsFragment
 
 class ShoppingListAdapter(
@@ -24,36 +26,17 @@ class ShoppingListAdapter(
 ) : RecyclerView.Adapter<ShoppingListAdapter.ShoppingListViewHolder>(){
 
     inner class ShoppingListViewHolder(listView : View) : RecyclerView.ViewHolder(listView), View.OnClickListener{
-        private var normalColor: Int = Color.WHITE
 
         init {
             itemView.setOnClickListener(this)
         }
 
         override fun onClick(view : View){
-            // Show a toast message when the item is clicked:
-            val animator1 = ValueAnimator.ofObject(ArgbEvaluator(), normalColor, Color.parseColor("#FFCCCC"))
-            animator1.duration = 500
-            animator1.addUpdateListener { animator -> itemView.setBackgroundColor(animator.animatedValue as Int) }
-            animator1.start()
-
             val fragmentTransaction = (itemView.context as FragmentActivity).supportFragmentManager.beginTransaction()
             val fragment = ItemsFragment()
-            fragmentTransaction.replace(R.id.container, fragment)
+            fragmentTransaction.replace(R.id.nav_host_fragment_activity_main, fragment)
             fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()
-
-            // Animate the color back to the normal color after a delay:
-            val animator2 = ValueAnimator.ofObject(ArgbEvaluator(), Color.parseColor("#FFCCCC"), normalColor)
-            animator2.startDelay = 500 // Set the delay to 500 milliseconds
-            animator2.duration = 500
-            animator2.addUpdateListener { animator -> itemView.setBackgroundColor(animator.animatedValue as Int) }
-            animator2.start()
-            val context = view.context
-            val text = "Item clicked"
-            val duration = Toast.LENGTH_SHORT
-            val toast = Toast.makeText(context, text, duration)
-            toast.show()
         }
     }
 
