@@ -1,32 +1,30 @@
 package com.example.shoppinglist2.ui.shoppinglist
 
+import androidx.appcompat.app.AppCompatDialog
 import android.content.Context
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatDialog
 import com.example.shoppinglist2.R
 import com.example.shoppinglist2.data.db.entities.ShoppingItem
+import com.example.shoppinglist2.data.db.entities.ShoppingList
 
-class AddShoppingItemDialog(listId : Int, context : Context, var addDialogListener: AddDialogListener) : AppCompatDialog(context) {
-
-    private var idOfList = listId
+class AddShoppingListDialog(context : Context, var addListDialogListener : AddListDialogListener) : AppCompatDialog(context){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.dialog_add_shoppingitem)
+        setContentView(R.layout.dialog_add_list)
 
         findViewById<TextView>(R.id.tvAdd)?.setOnClickListener{
             val name = findViewById<EditText>(R.id.etName)?.text.toString()
-            val amount = findViewById<EditText>(R.id.etAmount)?.text.toString()
 
-            if(name.isEmpty() || amount.isEmpty()){
+            if(name.isEmpty()){
                 Toast.makeText(context, "Please enter all the information", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            val item = ShoppingItem(idOfList, name, amount.toInt(), false)
-            addDialogListener.onAddButtonClicked(item)
+            val list = ShoppingList(name)
+            addListDialogListener.onAddButtonClicked(list)
             dismiss()
         }
 
@@ -34,5 +32,4 @@ class AddShoppingItemDialog(listId : Int, context : Context, var addDialogListen
             cancel()
         }
     }
-
 }

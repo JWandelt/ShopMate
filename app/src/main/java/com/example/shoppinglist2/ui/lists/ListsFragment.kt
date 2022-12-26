@@ -10,8 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shoppinglist2.data.db.ShoppingDatabase
+import com.example.shoppinglist2.data.db.entities.ShoppingItem
+import com.example.shoppinglist2.data.db.entities.ShoppingList
 import com.example.shoppinglist2.data.repositories.ShoppingListRepository
 import com.example.shoppinglist2.databinding.FragmentListsBinding
+import com.example.shoppinglist2.ui.shoppinglist.AddDialogListener
+import com.example.shoppinglist2.ui.shoppinglist.AddListDialogListener
+import com.example.shoppinglist2.ui.shoppinglist.AddShoppingItemDialog
+import com.example.shoppinglist2.ui.shoppinglist.AddShoppingListDialog
 
 class ListsFragment : Fragment() {
 
@@ -36,6 +42,7 @@ class ListsFragment : Fragment() {
         val root: View = binding.root
 
         val rv = binding.rvShoppingItems
+        val fab = binding.fabAddList
 
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
@@ -45,16 +52,16 @@ class ListsFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
 
-        return root
-    }
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        if (!hidden) {
-            val actionBar = (activity as AppCompatActivity).supportActionBar
-            actionBar?.setTitle("Lists")
+        fab.setOnClickListener {
+            AddShoppingListDialog(requireContext(),
+                object : AddListDialogListener {
+                    override fun onAddButtonClicked(list: ShoppingList) {
+                        viewModel.upsert(list)
+                    }
+                }).show()
         }
-        Toast.makeText(context, "smt", Toast.LENGTH_SHORT).show()
+
+        return root
     }
 
     override fun onDestroyView() {

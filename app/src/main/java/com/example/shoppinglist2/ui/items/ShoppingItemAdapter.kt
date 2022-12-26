@@ -1,4 +1,4 @@
-package com.example.shoppinglist2.other
+package com.example.shoppinglist2.ui.items
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist2.R
 import com.example.shoppinglist2.data.db.entities.ShoppingItem
-import com.example.shoppinglist2.ui.items.ShoppingViewModel
 
 class ShoppingItemAdapter(
     var items : List<ShoppingItem>,

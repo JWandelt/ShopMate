@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -14,7 +13,6 @@ import com.example.shoppinglist2.data.db.ShoppingDatabase
 import com.example.shoppinglist2.data.db.entities.ShoppingItem
 import com.example.shoppinglist2.data.repositories.ShoppingRepository
 import com.example.shoppinglist2.databinding.FragmentItemsBinding
-import com.example.shoppinglist2.other.ShoppingItemAdapter
 import com.example.shoppinglist2.ui.shoppinglist.AddDialogListener
 import com.example.shoppinglist2.ui.shoppinglist.AddShoppingItemDialog
 
