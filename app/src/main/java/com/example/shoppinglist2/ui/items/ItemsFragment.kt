@@ -54,7 +54,7 @@ class ItemsFragment(listId : Int) : Fragment() {
         })
 
         fab.setOnClickListener {
-            AddShoppingItemDialog(requireContext(),
+            AddShoppingItemDialog(listID, requireContext(),
             object : AddDialogListener{
                 override fun onAddButtonClicked(item: ShoppingItem) {
                     viewModel.upsert(item)

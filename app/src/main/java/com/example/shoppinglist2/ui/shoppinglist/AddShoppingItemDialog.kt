@@ -9,8 +9,9 @@ import androidx.appcompat.app.AppCompatDialog
 import com.example.shoppinglist2.R
 import com.example.shoppinglist2.data.db.entities.ShoppingItem
 
-class AddShoppingItemDialog(context : Context, var addDialogListener: AddDialogListener) : AppCompatDialog(context) {
+class AddShoppingItemDialog(listId : Int, context : Context, var addDialogListener: AddDialogListener) : AppCompatDialog(context) {
 
+    private var idOfList = listId
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_add_shoppingitem)
@@ -24,7 +25,7 @@ class AddShoppingItemDialog(context : Context, var addDialogListener: AddDialogL
                 return@setOnClickListener
             }
 
-            val item = ShoppingItem(1, name, amount.toInt(), false)
+            val item = ShoppingItem(idOfList, name, amount.toInt(), false)
             addDialogListener.onAddButtonClicked(item)
             dismiss()
         }
