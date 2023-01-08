@@ -10,5 +10,9 @@ class ShoppingListRepository(
 
     suspend fun delete(list : ShoppingList) = db.getShoppingListDao().delete(list)
 
+    suspend fun deleteItemsOnList(list: ShoppingList) = db.getShoppingListDao().deleteItemsOnList(
+        list.listID!!
+    )
+
     fun getAllLists() = db.getShoppingListDao().getAllLists()
 }

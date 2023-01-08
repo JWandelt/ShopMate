@@ -21,4 +21,8 @@ interface ShoppingListDao {
     @Transaction
     @Query("SELECT * FROM shopping_lists WHERE listID = :listID")
     fun getListWithItems(listID : Int) : List<ListWithItems>
+
+    @Transaction
+    @Query("DELETE FROM shopping_items WHERE list_id = :listID")
+    suspend fun deleteItemsOnList(listID: Int)
 }

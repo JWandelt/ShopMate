@@ -57,6 +57,7 @@ class ShoppingListAdapter(
         holder.itemView.findViewById<TextView>(R.id.tv_listName).text = curList.name
 
         holder.itemView.findViewById<ImageView>(R.id.iv_delete).setOnClickListener {
+            viewModel.deleteItemsOnList(curList)
             viewModel.delete(curList)
         }
     }
